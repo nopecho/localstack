@@ -1,26 +1,31 @@
 #!/bin/sh
 
-#create your SQS names
-SQS_NAME_1='sqs-1'
-SQS_NAME_2='sqs-2'
-#localstack default SQS url
-DEFAULT_SQS_URL_1='http://localhost:4566/000000000000/'$SQS_NAME_1
-DEFAULT_SQS_URL_2='http://localhost:4566/000000000000/'$SQS_NAME_2
+# standard SQS
+SQS_NAME='sqs'
+STANDARD_SQS_URL='http://localhost:4566/000000000000/'$SQS_NAME
+# fifo SQS
+SQS_NAME_FIFO='sqs.fifo'
+FIFO_SQS_URL='http://localhost:4566/000000000000/'$SQS_NAME_FIFO
 
-#create your SNS names
-SNS_NAME_1='sns-1'
-#localstack default SNS arn
-DEFAULT_SNS_ARN_1='arn:aws:sns:ap-northeast-2:000000000000:'$SNS_NAME_1
+# standard SNS topic
+SNS_NAME='sns'
+STANDARD_SNS_ARN='arn:aws:sns:ap-northeast-2:000000000000:'$SNS_NAME
+# fifo SNS topic
+SNS_NAME_FIFO='sns.fifo'
+FIFO_SNS_ARN='arn:aws:sns:ap-northeast-2:000000000000:'$SNS_NAME_FIFO
 
 echo "Init localstack..."
+# create standard SQS, SNS
+awslocal sqs create-queue --queue-name $SQS_NAME
+awslocal sns create-topic --name $SNS_NAME
+# subscribe SNS topic
+awslocal sns subscribe --topic-arn $STANDARD_SNS_ARN --protocol sqs --notification-endpoint $STANDARD_SQS_URL
 
-awslocal sqs create-queue --queue-name $SQS_NAME_1
-awslocal sqs create-queue --queue-name $SQS_NAME_2
-
-awslocal sns create-topic --name $SNS_NAME_1
-
-awslocal sns subscribe --topic-arn $DEFAULT_SNS_ARN_1 --protocol sqs --notification-endpoint $DEFAULT_SQS_URL_1
-awslocal sns subscribe --topic-arn $DEFAULT_SNS_ARN_1 --protocol sqs --notification-endpoint $DEFAULT_SQS_URL_2
+# create fifo SQS ,SNS
+awslocal sqs create-queue --queue-name $SQS_NAME_FIFO --attributes FifoQueue=true
+awslocal sns create-topic --name $SNS_NAME_FIFO --attributes FifoTopic=true
+# subscribe SNS topic
+awslocal sns subscribe --topic-arn $FIFO_SNS_ARN --protocol sqs --notification-endpoint $FIFO_SQS_URL
 
 echo "SNS subscriptions list >>>>>"
 awslocal sns list-subscriptions
@@ -28,4 +33,4 @@ awslocal sns list-subscriptions
 echo "Created SQS list >>>>>>"
 awslocal sqs list-queues
 
-echo "Init localstack finished!"
+echo "Init localstack finished :)"
