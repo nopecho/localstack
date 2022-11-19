@@ -1,0 +1,8 @@
+server:
+  port: 9090
+
+cloud:
+  aws:
+    credentials:
+      access-key: test
+      secret-key: test
