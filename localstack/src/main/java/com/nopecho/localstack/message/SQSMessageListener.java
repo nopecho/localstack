@@ -1,8 +1,5 @@
 package com.nopecho.localstack.message;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nopecho.localstack.order.event.Event;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.aws.messaging.listener.annotation.SqsListener;
@@ -13,8 +10,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SQSMessageListener implements MessageListener<String> {
 
-    @SqsListener(value = "${cloud.aws.sqs.sqs.name}")
+    @SqsListener(value = "${cloud.aws.sqs.any-sqs.name}")
     public void receive(String msg) {
-        log.info("SQS Message Received : {}", msg);
+        log.info("SQS Message Received 1 : {}", msg);
+    }
+
+    @SqsListener(value = "${cloud.aws.sqs.any-sqs-2.name}")
+    public void receive2(String msg) {
+        log.info("SQS Message Received 2 : {}", msg);
     }
 }

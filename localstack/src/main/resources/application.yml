@@ -13,9 +13,15 @@ cloud:
     end-point: http://localhost:4566
 
     sqs:
-      sqs:
-        name: sqs
-        url: http://localhost:4566/000000000000/sqs
-      sqs-fifo:
+      any-sqs:
+        name: any-sqs
+        url: http://localhost:4566/000000000000/any-sqs
+      any-sqs-2:
+        name: any-sqs2
+        url: http://localhost:4566/000000000000/any-sqs2
+      any-sqs-fifo:
         name: sqs.fifo
-        url: http://localhost:4566/000000000000/sqs.fifo
+        url: http://localhost:4566/000000000000/any-sqs.fifo
+    sns:
+      any-sns:
+        topic-arn: arn:aws:sns:ap-northeast-2:000000000000:any-sns

@@ -1,4 +1,4 @@
-package com.nopecho.localstack.order.service;
+package com.nopecho.localstack.order.applications;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nopecho.localstack.order.command.Command;

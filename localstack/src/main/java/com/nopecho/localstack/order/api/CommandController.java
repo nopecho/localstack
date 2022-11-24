@@ -5,7 +5,7 @@ import com.nopecho.localstack.order.command.Command;
 import com.nopecho.localstack.order.command.CreateCommand;
 import com.nopecho.localstack.order.command.DeleteCommand;
 import com.nopecho.localstack.order.command.UpdateCommand;
-import com.nopecho.localstack.order.service.OrderResolver;
+import com.nopecho.localstack.order.applications.CommandResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/orders")
 public class CommandController {
 
-    private final OrderResolver resolver;
+    private final CommandResolver resolver;
 
-    @PostMapping
+    @PostMapping("/sqs")
     public String create(@RequestBody Command.Create cmd) throws JsonProcessingException {
         Command command = CreateCommand.of(
                 cmd.getId(),
@@ -24,7 +24,7 @@ public class CommandController {
                 cmd.getPayment(),
                 cmd.getPrice()
         );
-        resolver.resolve(command);
+        resolver.resolveBySqs(command);
         return "ok";
     }
 
@@ -37,14 +37,26 @@ public class CommandController {
                 cmd.getPayment(),
                 cmd.getPrice()
         );
-        resolver.resolve(command);
+        resolver.resolveBySqs(command);
         return "ok";
     }
 
     @DeleteMapping("/{orderId}")
     public String delete(@PathVariable Long orderId) throws JsonProcessingException {
         Command command = DeleteCommand.of(orderId);
-        resolver.resolve(command);
+        resolver.resolveBySqs(command);
+        return "ok";
+    }
+
+    @PostMapping("/sns")
+    public String sns(@RequestBody Command.Create cmd) throws JsonProcessingException {
+        Command command = CreateCommand.of(
+                cmd.getId(),
+                cmd.getProduct(),
+                cmd.getPayment(),
+                cmd.getPrice()
+        );
+        resolver.resolveBySns(command);
         return "ok";
     }
 }
