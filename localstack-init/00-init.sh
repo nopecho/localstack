@@ -68,10 +68,4 @@ awslocal sns subscribe \
 --protocol sqs \
 --notification-endpoint $FIFO_SQS_URL
 
-echo "SNS subscriptions list >>>>>"
-awslocal sns list-subscriptions
-
-echo "Created SQS list >>>>>>"
-awslocal sqs list-queues
-
 echo "Init localstack finished :)"

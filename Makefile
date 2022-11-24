@@ -24,7 +24,7 @@ endif
 start-aws: ## Start localstack Docker Container
 ifneq ($(RUNNING_AWS_CONTAINER),$(LOCAL_AWS_CONTAINER))
 	@docker run --rm --name $(LOCAL_AWS_CONTAINER) -d \
-	-v ${PWD}/init.d:/docker-entrypoint-initaws.d \
+	-v ${PWD}/localstack-init:/docker-entrypoint-initaws.d \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-p $(LOCAL_AWS_PORT):4566 \
 	-e SERVICES=$(LOCAL_AWS_SERVICES) \
