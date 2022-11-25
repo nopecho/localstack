@@ -1,0 +1,22 @@
+server:
+  port: 9090
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_ACCESS_KEY}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+    sqs:
+      end-point: https://sqs.ap-northeast-2.amazonaws.com
+      any-sqs:
+        name: ANY-SQS
+
+    sns:
+      end-point: https://sns.ap-northeast-2.amazonaws.com
+      any-sns:
+        name: ANY-SNS
