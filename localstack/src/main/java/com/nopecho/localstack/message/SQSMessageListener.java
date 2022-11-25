@@ -19,4 +19,9 @@ public class SQSMessageListener implements MessageListener<String> {
     public void receive2(String msg) {
         log.info("SQS Message Received 2 : {}", msg);
     }
+
+    @SqsListener(value = "${cloud.aws.sqs.any-sqs-fifo.name}")
+    public void receive3(String msg) {
+        log.info("SQS Message Received 2 : {}", msg);
+    }
 }

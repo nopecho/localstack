@@ -5,25 +5,29 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.aws.messaging.config.SimpleMessageListenerContainerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @RequiredArgsConstructor
 public class SQSConfig {
 
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
+    @Value("${cloud.aws.sqs.end-point}")
+    private String sqsEndPoint;
+
     private final AWSCredentialsProvider credentials;
 
-    private final AwsClientBuilder.EndpointConfiguration endpointConfiguration;
     @Bean
     @Primary
     public AmazonSQSAsync amazonSQSClient() {
         return AmazonSQSAsyncClientBuilder
                 .standard()
-                .withEndpointConfiguration(endpointConfiguration)
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(sqsEndPoint,region))
                 .withCredentials(credentials)
                 .build();
     }

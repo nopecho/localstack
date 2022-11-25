@@ -10,18 +10,20 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-    end-point: http://localhost:4566
 
     sqs:
+      end-point: http://localhost:4566
       any-sqs:
-        name: any-sqs
-        url: http://localhost:4566/000000000000/any-sqs
+        name: PULLED-EVENTS-RECEIVED-DEV
+        url: http://localhost:4566/000000000000/PULLED-EVENTS-RECEIVED-DEV
       any-sqs-2:
         name: any-sqs2
         url: http://localhost:4566/000000000000/any-sqs2
       any-sqs-fifo:
-        name: sqs.fifo
-        url: http://localhost:4566/000000000000/any-sqs.fifo
+        name: ANY-SQS.fifo
+        url: http://localhost:4566/000000000000/ANY-SQS.fifo
+
     sns:
+      end-point: http://localhost:4566
       any-sns:
         topic-arn: arn:aws:sns:ap-northeast-2:000000000000:any-sns

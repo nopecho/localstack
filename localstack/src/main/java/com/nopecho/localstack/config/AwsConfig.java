@@ -18,21 +18,9 @@ public class AwsConfig {
     @Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
-
-    @Value("${cloud.aws.end-point}")
-    private String url;
-
     @Bean
     @Primary
     public AWSCredentialsProvider awsCredentialsProvider() {
         return new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
-    }
-
-    @Bean
-    @Primary
-    public AwsClientBuilder.EndpointConfiguration endpointConfiguration() {
-        return new AwsClientBuilder.EndpointConfiguration(url, region);
     }
 }
