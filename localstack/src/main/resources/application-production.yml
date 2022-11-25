@@ -10,13 +10,13 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
     sqs:
       end-point: https://sqs.ap-northeast-2.amazonaws.com
       any-sqs:
+        # QueueMessageTemplate 사용시 SQS 의 논리적 이름으로 실제 물리적 SQS 를 찾음
         name: ANY-SQS
-
     sns:
       end-point: https://sns.ap-northeast-2.amazonaws.com
       any-sns:
+        # NotificationMessageTemplate 사용시 SNS 의 논리적 토픽 이름으로 실제 물리적 SNS topic 을 찾음
         name: ANY-SNS
